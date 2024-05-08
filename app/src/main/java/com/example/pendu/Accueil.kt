@@ -30,11 +30,11 @@ class Accueil : AppCompatActivity() {
         /*btn_history.setOnClickListener {
             val intent = Intent(this, HistoryActivity::class.java)
             startActivity(intent)
-        }
+        }*/
 
         btn_setting.setOnClickListener {
-            val intent = Intent(this, SettingsActivity::class.java)
+            val intent = Intent(this, Preference::class.java)
             startActivity(intent)
-        }*/
+        }
     }
 }
