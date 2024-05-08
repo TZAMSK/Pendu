@@ -20,14 +20,10 @@
     <ImageView
         android:id="@+id/imageView"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:src="@drawable/acceuil" />
+        android:layout_height="349dp"
+        android:layout_marginBottom="25px"
 
-    <Button
-        android:id="@+id/btnPlay"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Play" />
+        android:src="@drawable/acceuil" />
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -36,16 +32,28 @@
         android:orientation="horizontal">
 
         <Button
+            android:id="@+id/btnPlay"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginRight="20px"
+            android:background="#402525"
+            android:text="Play" />
+
+        <Button
             android:id="@+id/btnHistory"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginRight="20px"
+            android:background="#886464"
             android:text="History" />
 
         <Button
             android:id="@+id/btnSetting"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:background="#8A5B5B"
             android:text="Setting" />
+
     </LinearLayout>
 
 </LinearLayout>
