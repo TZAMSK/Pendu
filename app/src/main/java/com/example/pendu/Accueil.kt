@@ -18,7 +18,6 @@ class Accueil : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.accueil)
 
-        txtWelcome = findViewById(R.id.txtBienvenue)
         btn_play = findViewById(R.id.btnPlay)
         btn_history = findViewById(R.id.btnHistory)
         btn_setting = findViewById(R.id.btnSetting)
