@@ -41,14 +41,14 @@
             android:orientation="horizontal">
 
             <RadioButton
-                android:id="@+id/radioButton"
+                android:id="@+id/RBfrancais"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginRight="15px"
                 android:text="Francais" />
 
             <RadioButton
-                android:id="@+id/radioButton2"
+                android:id="@+id/RBanglais"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="Anglais" />
@@ -77,21 +77,21 @@
             android:orientation="horizontal">
 
             <RadioButton
-                android:id="@+id/radioButton3"
+                android:id="@+id/RBfacile"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginRight="25px"
                 android:text="Facile" />
 
             <RadioButton
-                android:id="@+id/radioButton4"
+                android:id="@+id/RBmoyen"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginRight="25px"
                 android:text="Moyen" />
 
             <RadioButton
-                android:id="@+id/radioButton5"
+                android:id="@+id/RBdifficile"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
@@ -106,7 +106,7 @@
         android:orientation="horizontal">
 
         <Button
-            android:id="@+id/btnHome"
+            android:id="@+id/btnRetour"
             android:layout_width="200dp"
             android:layout_height="wrap_content"
             android:layout_marginLeft="15px"
@@ -116,14 +116,14 @@
             android:text="Retour" />
 
         <Button
-            android:id="@+id/btnHome"
-            android:layout_width="200dp"
+            android:id="@+id/btnDictionnaire"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="15px"
             android:layout_marginRight="20px"
-            android:layout_weight="1"
-            android:background="#7A5C5C"
+            android:background="#9A6D6D"
             android:text="Dictionnaire" />
+
     </LinearLayout>
 
 </LinearLayout>
