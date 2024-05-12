@@ -30,12 +30,21 @@ class HistoryRecyclerAdapter(var histo_recycler : ArrayList<History>):
 
     override fun onBindViewHolder(holder: MyViewHolder, position: Int) {
         holder.txtMot.text = histo_recycler[position].mot
-        holder.txtTemps.text = "${histo_recycler[position].temps} seconds"
+        holder.txtTemps.text = Temps(histo_recycler[position].temps)
         holder.txtDifficulte.text = histo_recycler[position].difficulte.name
     }
 
 
     override fun getItemCount(): Int {
         return histo_recycler.size
+    }
+
+    fun Temps(temps:Long):String{
+        val heures = (temps / 3600000) % 24
+        val minutes = (temps / 60000) % 60
+        val secondes = (temps / 1000) % 60
+
+        return String.format("%02dh %02dm %02ds", heures, minutes, secondes)
+
     }
 }
