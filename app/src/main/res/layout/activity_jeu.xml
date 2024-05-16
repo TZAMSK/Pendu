@@ -8,7 +8,7 @@
     tools:context=".Jeu">
 
     <ImageView
-        android:id="@+id/imageView2"
+        android:id="@+id/imgPendu"
         android:layout_width="match_parent"
         android:layout_height="350dp"
         android:layout_marginTop="100px"
@@ -30,7 +30,7 @@
             android:textStyle="bold" />
 
         <TextView
-            android:id="@+id/txtscore"
+            android:id="@+id/txtScore"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="1"
@@ -57,7 +57,7 @@
             android:textStyle="bold" />
 
         <TextView
-            android:id="@+id/txtmotDeviner"
+            android:id="@+id/txtMot"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginRight="58px"
