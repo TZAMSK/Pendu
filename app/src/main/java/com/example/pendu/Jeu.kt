@@ -3,6 +3,7 @@ package com.example.pendu
 import android.content.Intent
 import android.graphics.Color
 import android.os.Bundle
+import android.util.Log
 import android.widget.Button
 import android.widget.ImageView
 import android.widget.TextView
@@ -127,6 +128,12 @@ class Jeu : AppCompatActivity() {
             val état = étatLettres()
             afficherÉtatLettres(état)
             txtScore.text = score().toString()
+
+            Log.d("mot pour l'instant", txtMot.text.toString().lowercase())
+            Log.d("mot cache", motÀDeviner)
+            if (txtMot.text.toString().lowercase()==motÀDeviner){
+                afficherFin(getString(R.string.txt_winner))
+            }
             return true
         } else {
             nbErreurs++
@@ -138,6 +145,7 @@ class Jeu : AppCompatActivity() {
             return false
         }
     }
+
 
     private fun afficherFin(statut: String){
         val intention = Intent(this, Statut::class.java)
@@ -162,7 +170,7 @@ class Jeu : AppCompatActivity() {
             5 -> R.drawable.err05
             else -> {
                 txtMot.text = motÀDeviner
-                afficherFin(getString(R.string.txt_lose))
+                afficherFin(getString(R.string.txt_loser))
                 R.drawable.err06
             }
 
