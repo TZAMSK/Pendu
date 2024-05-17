@@ -1,3 +1,5 @@
 <resources>
     <string name="app_name">Pendu</string>
+    <string name="btn_play_again">Rejouer</string>
+    <string name="txt_lose">Vous avez perdu! Le mot était: </string>
 </resources>

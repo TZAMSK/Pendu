@@ -13,6 +13,9 @@
         android:theme="@style/Theme.Pendu"
         tools:targetApi="31">
         <activity
+            android:name=".Statut"
+            android:exported="false" />
+        <activity
             android:name=".Historique"
             android:exported="false" />
         <activity

@@ -1,5 +1,6 @@
 package com.example.pendu
 
+import android.content.Intent
 import android.graphics.Color
 import android.os.Bundle
 import android.widget.Button
@@ -43,6 +44,7 @@ class Jeu : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_jeu)
+
 
         txtScore = findViewById(R.id.txtScore)
         txtMot = findViewById(R.id.txtMot)
@@ -137,6 +139,19 @@ class Jeu : AppCompatActivity() {
         }
     }
 
+    private fun afficherFin(statut: String){
+        val intention = Intent(this, Statut::class.java)
+
+        intention.putExtra("statut", statut)
+        if(nbErreurs >= 6){
+            intention.putExtra("motCache", motÀDevinerMinuscule)
+        }
+        startActivity(intention)
+        réinitialiser()
+        recreate()
+    }
+
+
     fun afficherPendu(nbErreurs: Int) {
         val drawableId = when (nbErreurs) {
             0 -> R.drawable.err01
@@ -147,8 +162,10 @@ class Jeu : AppCompatActivity() {
             5 -> R.drawable.err05
             else -> {
                 txtMot.text = motÀDeviner
+                afficherFin(getString(R.string.txt_lose))
                 R.drawable.err06
             }
+
         }
         imgPendu.setImageResource(drawableId)
     }
