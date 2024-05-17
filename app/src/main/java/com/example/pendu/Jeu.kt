@@ -163,11 +163,11 @@ class Jeu : AppCompatActivity() {
     fun afficherPendu(nbErreurs: Int) {
         val drawableId = when (nbErreurs) {
             0 -> R.drawable.err01
-            1 -> R.drawable.err01
-            2 -> R.drawable.err02
-            3 -> R.drawable.err03
-            4 -> R.drawable.err04
-            5 -> R.drawable.err05
+            1 -> R.drawable.err02
+            2 -> R.drawable.err03
+            3 -> R.drawable.err04
+            4 -> R.drawable.err05
+            5 -> R.drawable.err06
             else -> {
                 txtMot.text = motÀDeviner
                 afficherFin(getString(R.string.txt_loser))
