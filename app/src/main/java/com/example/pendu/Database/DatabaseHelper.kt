@@ -4,6 +4,7 @@ import android.content.ContentValues
 import android.content.Context
 import android.database.sqlite.SQLiteDatabase
 import android.database.sqlite.SQLiteOpenHelper
+import com.example.pendu.Difficulte
 
 class DatabaseHelper(context: Context): SQLiteOpenHelper(context, DATABASE_NAME, null, DATABASE_VERSION) {
 
@@ -88,5 +89,21 @@ class DatabaseHelper(context: Context): SQLiteOpenHelper(context, DATABASE_NAME,
         cursor.close()
         db.close()
         return dictionnaireListe
+    }
+
+    fun getMotsDictionnaire(difficulté:String, langage:String):List<String>{
+        val motsListe = mutableListOf<String>()
+        val db = readableDatabase
+        val selectionMot = "$COLUMN_DIFFICULTÉ = ? AND $COLUMN_LANGAGE = ?"
+        val selectionArgs = arrayOf(difficulté, langage)
+        val query = "SELECT $COLUMN_MOT FROM $TABLE_DICTIONNAIRE WHERE $selectionMot"
+        val cursor = db.rawQuery(query, selectionArgs)
+        while (cursor.moveToNext()){
+            val mot = cursor.getString(cursor.getColumnIndexOrThrow(COLUMN_MOT))
+            motsListe.add(mot)
+        }
+        cursor.close()
+        db.close()
+        return motsListe
     }
 }
