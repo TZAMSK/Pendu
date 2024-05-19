@@ -4,7 +4,6 @@ import android.content.ContentValues
 import android.content.Context
 import android.database.sqlite.SQLiteDatabase
 import android.database.sqlite.SQLiteOpenHelper
-import com.example.pendu.Difficulte
 
 class DatabaseHelper(context: Context): SQLiteOpenHelper(context, DATABASE_NAME, null, DATABASE_VERSION) {
 
@@ -14,6 +13,7 @@ class DatabaseHelper(context: Context): SQLiteOpenHelper(context, DATABASE_NAME,
 
         private const val TABLE_HISTORIQUE = "Historique"
         private const val TABLE_DICTIONNAIRE = "Dictionnaire"
+        private const val TABLE_PREF = "Preference"
 
         private const val COLUMN_ID = "id"
         private const val COLUMN_MOT = "mot"
@@ -30,6 +30,10 @@ class DatabaseHelper(context: Context): SQLiteOpenHelper(context, DATABASE_NAME,
         val CREATE_TABLE_DICTIONNAIRE = "CREATE TABLE $TABLE_DICTIONNAIRE($COLUMN_ID INTEGER PRIMARY KEY," +
                 "$COLUMN_MOT TEXT, $COLUMN_DIFFICULTÉ TEXT, $COLUMN_LANGAGE TEXT)"
         db?.execSQL(CREATE_TABLE_DICTIONNAIRE)
+
+        val CREATE_TABLE_PREFERENCE = "CREATE TABLE $TABLE_PREF($COLUMN_ID INTEGER PRIMARY KEY, " +
+                "$COLUMN_DIFFICULTÉ TEXT, " + "$COLUMN_LANGAGE TEXT)"
+        db?.execSQL(CREATE_TABLE_PREFERENCE)
     }
 
     override fun onUpgrade(db: SQLiteDatabase?, oldVersion: Int, newVersion: Int) {
@@ -38,6 +42,9 @@ class DatabaseHelper(context: Context): SQLiteOpenHelper(context, DATABASE_NAME,
 
         val DROP_TABLE_DICTIONNAIRE = "DROP TABLE IF EXISTS $TABLE_DICTIONNAIRE"
         db?.execSQL(DROP_TABLE_DICTIONNAIRE)
+
+        val DROP_TABLE_PREFERENCE = "DROP TABLE IF EXISTS $TABLE_PREF"
+        db?.execSQL(DROP_TABLE_PREFERENCE)
 
          onCreate(db)
     }
@@ -106,4 +113,31 @@ class DatabaseHelper(context: Context): SQLiteOpenHelper(context, DATABASE_NAME,
         db.close()
         return motsListe
     }
+
+    private fun Pref(db: SQLiteDatabase?) {
+        val pref = Preference(1,"Français", Preference.EASY)
+        val valeur = ContentValues().apply {
+            put(COLUMN_LANGAGE, pref.langue)
+            put(COLUMN_DIFFICULTÉ, pref.difficulte)
+        }
+        db?.insert(TABLE_PREF, null, valeur)
+    }
+
+    fun update_preference(key: String, value: String) {
+        val db = writableDatabase
+        val values = ContentValues()
+        val columnName = when (key) {
+            "language" -> COLUMN_LANGAGE
+            "difficulty" -> COLUMN_DIFFICULTÉ
+            else -> return
+        }
+        values.put(columnName, value)
+
+        try {
+            db.update(TABLE_PREF, values, "$COLUMN_ID = ?", arrayOf("1"))
+        } finally {
+            db.close()
+        }
+    }
+
 }

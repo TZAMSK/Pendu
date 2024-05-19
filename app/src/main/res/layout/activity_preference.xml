@@ -37,6 +37,7 @@
         <RadioGroup
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:checkedButton="@id/RBfrancais"
             android:gravity="center"
             android:orientation="horizontal">
 
@@ -74,6 +75,7 @@
         <RadioGroup
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:checkedButton="@id/RBfacile"
             android:orientation="horizontal">
 
             <RadioButton
