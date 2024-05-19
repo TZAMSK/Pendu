@@ -5,8 +5,9 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
+import com.example.pendu.Database.Historique
 
-class HistoryRecyclerAdapter(var histo_recycler : ArrayList<History>):
+class HistoryRecyclerAdapter(var histo_recycler : ArrayList<Historique>):
     RecyclerView.Adapter<HistoryRecyclerAdapter.MyViewHolder>() {
     class MyViewHolder(itemView: View): RecyclerView.ViewHolder(itemView) {
             var txtMot : TextView
@@ -31,7 +32,7 @@ class HistoryRecyclerAdapter(var histo_recycler : ArrayList<History>):
     override fun onBindViewHolder(holder: MyViewHolder, position: Int) {
         holder.txtMot.text = histo_recycler[position].mot
         holder.txtTemps.text = Temps(histo_recycler[position].temps)
-        holder.txtDifficulte.text = histo_recycler[position].difficulte.name
+        holder.txtDifficulte.text = histo_recycler[position].difficulté
     }
 
 

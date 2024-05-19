@@ -3,4 +3,9 @@
     <string name="btn_play_again">Rejouer</string>
     <string name="txt_loser">Vous avez perdu! Le mot était: </string>
     <string name="txt_winner">Vous avez gagné!</string>
+    <string-array name="difficultes">
+        <item>Facile</item>
+        <item>Moyen</item>
+        <item>Difficile</item>
+    </string-array>
 </resources>
