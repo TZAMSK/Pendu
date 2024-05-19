@@ -34,6 +34,8 @@ class DatabaseHelper(context: Context): SQLiteOpenHelper(context, DATABASE_NAME,
         val CREATE_TABLE_PREFERENCE = "CREATE TABLE $TABLE_PREF($COLUMN_ID INTEGER PRIMARY KEY, " +
                 "$COLUMN_DIFFICULTÉ TEXT, " + "$COLUMN_LANGAGE TEXT)"
         db?.execSQL(CREATE_TABLE_PREFERENCE)
+
+        Pref(db)
     }
 
     override fun onUpgrade(db: SQLiteDatabase?, oldVersion: Int, newVersion: Int) {
@@ -128,7 +130,7 @@ class DatabaseHelper(context: Context): SQLiteOpenHelper(context, DATABASE_NAME,
         val values = ContentValues()
         val columnName = when (key) {
             "language" -> COLUMN_LANGAGE
-            "difficulty" -> COLUMN_DIFFICULTÉ
+            "difficulte" -> COLUMN_DIFFICULTÉ
             else -> return
         }
         values.put(columnName, value)
@@ -138,6 +140,31 @@ class DatabaseHelper(context: Context): SQLiteOpenHelper(context, DATABASE_NAME,
         } finally {
             db.close()
         }
+    }
+    fun getLanguagePreference(): String? {
+        val db = readableDatabase
+        val query = "SELECT $COLUMN_LANGAGE FROM $TABLE_PREF WHERE $COLUMN_ID = 1"
+        val cursor = db.rawQuery(query, null)
+        var language: String? = null
+        if (cursor.moveToFirst()) {
+            language = cursor.getString(cursor.getColumnIndexOrThrow(COLUMN_LANGAGE))
+        }
+        cursor.close()
+        db.close()
+        return language
+    }
+
+    fun getDifficultePreference(): String? {
+        val db = readableDatabase
+        val query = "SELECT $COLUMN_DIFFICULTÉ FROM $TABLE_PREF WHERE $COLUMN_ID = 1"
+        val cursor = db.rawQuery(query, null)
+        var difficulte: String? = null
+        if (cursor.moveToFirst()) {
+            difficulte = cursor.getString(cursor.getColumnIndexOrThrow(COLUMN_DIFFICULTÉ))
+        }
+        cursor.close()
+        db.close()
+        return difficulte
     }
 
 }

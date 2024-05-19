@@ -46,12 +46,14 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginRight="15px"
+                android:onClick="onRadioButtonClicked"
                 android:text="Francais" />
 
             <RadioButton
                 android:id="@+id/RBanglais"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:onClick="onRadioButtonClicked"
                 android:text="Anglais" />
         </RadioGroup>
 
@@ -83,6 +85,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginRight="25px"
+                android:onClick="onRadioButtonClicked"
                 android:text="Facile" />
 
             <RadioButton
@@ -90,6 +93,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginRight="25px"
+                android:onClick="onRadioButtonClicked"
                 android:text="Moyen" />
 
             <RadioButton
@@ -97,6 +101,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
+                android:onClick="onRadioButtonClicked"
                 android:text="Difficile" />
         </RadioGroup>
     </LinearLayout>

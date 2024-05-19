@@ -33,6 +33,8 @@ class Preference : AppCompatActivity() {
         btn_dictionnaire = findViewById(R.id.btnDictionnaire)
         btn_return = findViewById(R.id.btnRetour)
 
+        loadPreferences()
+
         btn_return.setOnClickListener {
             startActivity(Intent(this, Accueil::class.java))
             finish()
@@ -43,21 +45,37 @@ class Preference : AppCompatActivity() {
         }
     }
 
+    private fun loadPreferences() {
+        val language = databaseHelper.getLanguagePreference()
+        val difficulte = databaseHelper.getDifficultePreference()
+
+        when (language) {
+            "Francais" -> radioBtnFr.isChecked = true
+            "Anglais" -> radioBtnEn.isChecked = true
+        }
+
+        when (difficulte) {
+            "Facile" -> radioBtnEasy.isChecked = true
+            "Moyen" -> radioBtnMedium.isChecked = true
+            "Difficile" -> radioBtnHard.isChecked = true
+        }
+    }
+
     fun onRadioButtonClicked(view: View) {
         if (view is RadioButton && view.isChecked) {
             when (view.id) {
                 R.id.RBfrancais, R.id.RBanglais -> {
-                    val language = if (view.id == R.id.RBfrancais) "French" else "English"
+                    val language = if (view.id == R.id.RBfrancais) "Francais" else "Anglais"
                     databaseHelper.update_preference("language", language)
                 }
                 R.id.RBfacile, R.id.RBmoyen, R.id.RBdifficile -> {
-                    val difficulty = when (view.id) {
-                        R.id.RBfacile -> "Easy"
-                        R.id.RBmoyen -> "Medium"
-                        R.id.RBdifficile -> "Hard"
+                    val difficulte = when (view.id) {
+                        R.id.RBfacile -> "Facile"
+                        R.id.RBmoyen -> "Moyen"
+                        R.id.RBdifficile -> "Difficile"
                         else -> ""
                     }
-                    databaseHelper.update_preference("difficulty", difficulty)
+                    databaseHelper.update_preference("difficulte", difficulte)
                 }
             }
         }
