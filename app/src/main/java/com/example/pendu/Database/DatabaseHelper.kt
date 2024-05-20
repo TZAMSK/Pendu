@@ -167,4 +167,22 @@ class DatabaseHelper(context: Context): SQLiteOpenHelper(context, DATABASE_NAME,
         return difficulte
     }
 
+    fun Add_Mot(mot: Dictionnaire) {
+        val db = writableDatabase
+        val values = ContentValues().apply {
+            put(COLUMN_MOT, mot.mot)
+            put(COLUMN_DIFFICULTÉ, mot.difficulté)
+            put(COLUMN_LANGAGE, mot.langage)
+        }
+        db.insert(TABLE_DICTIONNAIRE, null, values)
+        db.close()
+    }
+
+    fun Delete_Mot(mot: Dictionnaire) {
+        val db = writableDatabase
+        val selection = "$COLUMN_ID = ?"
+        val selectionArgs = arrayOf(mot.id.toString())
+        db.delete(TABLE_DICTIONNAIRE, selection, selectionArgs)
+        db.close()
+    }
 }
