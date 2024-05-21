@@ -8,6 +8,7 @@ import android.widget.Button
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
+import com.example.pendu.Database.DatabaseHelper
 
 class Jeu : AppCompatActivity() {
 
@@ -26,24 +27,38 @@ class Jeu : AppCompatActivity() {
         "S", "T", "U", "V", "W", "X", "Y", "Z"
     )
 
-    //private val listeDeMots = Preference.listeDeMots
-    private val listeDeMots = arrayOf("SALUT")
-    private var motÀDeviner = listeDeMots.random()
-    private var motÀDevinerMinuscule = motÀDeviner.lowercase()
+    private lateinit var motsList: List<String>
+    private lateinit var motÀDeviner: String
+    private lateinit var motÀDevinerMinuscule: String
 
     private val COULEUR_CLIQUÉ = 0xFF701010.toInt()
     private val COULEUR_NORMAL = 0xFF6200EE.toInt()
+
+    private lateinit var language: String
+    private lateinit var difficulty: String
+    private lateinit var databaseHelper: DatabaseHelper
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_jeu)
 
-        initViews()
-        initGame()
-        setupButtons()
+        databaseHelper = DatabaseHelper(this)
+        language = intent.getStringExtra("language") ?: "Francais"
+        difficulty = intent.getStringExtra("difficulty") ?: "Facile"
+
+        // Fetch the list of words from the database based on language and difficulty
+        motsList = databaseHelper.getMotsDictionnaire(difficulty, language)
+
+        // Select a word randomly from the list
+        motÀDeviner = motsList.random()
+        motÀDevinerMinuscule = motÀDeviner.lowercase()
+
+        initierComposants()
+        initierMot()
+        initierBoutons()
     }
 
-    private fun initViews() {
+    private fun initierComposants() {
         txtScore = findViewById(R.id.txtScore)
         txtMot = findViewById(R.id.txtMot)
         imgPendu = findViewById(R.id.imgPendu)
@@ -53,11 +68,11 @@ class Jeu : AppCompatActivity() {
         btnRecommencer.setOnClickListener { resetGame() }
     }
 
-    private fun initGame() {
+    private fun initierMot() {
         txtMot.text = afficherMot(motÀDeviner)
     }
 
-    private fun setupButtons() {
+    private fun initierBoutons() {
         for (letter in listeMaj) {
             val buttonId = resources.getIdentifier("btn$letter", "id", packageName)
             if (buttonId != 0) {
@@ -80,7 +95,8 @@ class Jeu : AppCompatActivity() {
     private fun resetGame() {
         pointage = 0
         nbErreurs = 0
-        motÀDeviner = listeDeMots.random()
+        // Select a new word randomly from the list
+        motÀDeviner = motsList.random()
         motÀDevinerMinuscule = motÀDeviner.lowercase()
         lettresEssayées.clear()
         txtScore.text = score().toString()

@@ -19,10 +19,6 @@ class Preference : AppCompatActivity() {
     private lateinit var btnRetour: Button
     private lateinit var databaseHelper: DatabaseHelper
 
-    companion object {
-        val listeDeMots = mutableListOf<String>()
-    }
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_preference)
@@ -34,8 +30,8 @@ class Preference : AppCompatActivity() {
         radioBtnEasy = findViewById(R.id.RBfacile)
         radioBtnMedium = findViewById(R.id.RBmoyen)
         radioBtnHard = findViewById(R.id.RBdifficile)
-        btnDictionnaire = findViewById(R.id.btnDictionnaire)
         btnRetour = findViewById(R.id.btnRetour)
+        btnDictionnaire = findViewById(R.id.btnDictionnaire)
 
         loadPreferences()
 
@@ -44,57 +40,56 @@ class Preference : AppCompatActivity() {
             finish()
         }
 
-        btnDictionnaire.setOnClickListener {
+        btnDictionnaire .setOnClickListener {
             startActivity(Intent(this, Dictionnaire::class.java))
+            finish()
         }
     }
 
     private fun loadPreferences() {
         val language = databaseHelper.getLanguagePreference()
-        val difficulte = databaseHelper.getDifficultePreference()
+        val difficulty = databaseHelper.getDifficultePreference()
 
-        language?.let {
-            when (it) {
-                "Francais" -> radioBtnFr.isChecked = true
-                "Anglais" -> radioBtnEn.isChecked = true
-            }
-        }
+        language?.let { updateLanguageRadioButton(it) }
+        difficulty?.let { updateDifficultyRadioButton(it) }
+    }
 
-        difficulte?.let {
-            when (it) {
-                "Facile" -> radioBtnEasy.isChecked = true
-                "Moyen" -> radioBtnMedium.isChecked = true
-                "Difficile" -> radioBtnHard.isChecked = true
-            }
+    private fun updateLanguageRadioButton(language: String) {
+        when (language) {
+            "Francais" -> radioBtnFr.isChecked = true
+            "Anglais" -> radioBtnEn.isChecked = true
         }
+    }
 
-        if (language != null && difficulte != null) {
-            updateListDeMots(language, difficulte)
-        }
+    private fun updateDifficultyRadioButton(difficulty: String) {
+        radioBtnEasy.isChecked = (difficulty == "Facile")
+        radioBtnMedium.isChecked = (difficulty == "Moyen")
+        radioBtnHard.isChecked = (difficulty == "Difficile")
     }
 
     fun onRadioButtonClicked(view: View) {
-        if (view is RadioButton && view.isChecked) {
-            val language = if (radioBtnFr.isChecked) "Francais" else if (radioBtnEn.isChecked) "Anglais" else ""
-            val difficulte = when {
-                radioBtnEasy.isChecked -> "Facile"
-                radioBtnMedium.isChecked -> "Moyen"
-                radioBtnHard.isChecked -> "Difficile"
-                else -> ""
+        if (view is RadioButton) {
+            val language = when (view.id) {
+                R.id.RBfrancais -> "Francais"
+                R.id.RBanglais -> "Anglais"
+                else -> return
             }
 
-            if (view.id == R.id.RBfrancais || view.id == R.id.RBanglais) {
-                databaseHelper.update_preference("language", language)
-            } else {
-                databaseHelper.update_preference("difficulte", difficulte)
+            val difficulty = when (view.id) {
+                R.id.RBfacile -> "Facile"
+                R.id.RBmoyen -> "Moyen"
+                R.id.RBdifficile -> "Difficile"
+                else -> return
             }
 
-            updateListDeMots(language, difficulte)
+            databaseHelper.update_preference("language", language)
+            databaseHelper.update_preference("difficulte", difficulty)
+
+            // Start the Jeu activity with selected language and difficulty
+            val intent = Intent(this, Jeu::class.java)
+            intent.putExtra("language", language)
+            intent.putExtra("difficulty", difficulty)
+            startActivity(intent)
         }
-    }
-
-    private fun updateListDeMots(language: String, difficulte: String) {
-        listeDeMots.clear()
-        listeDeMots.addAll(databaseHelper.getMotsDictionnaire(language, difficulte))
     }
 }
