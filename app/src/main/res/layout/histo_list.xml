@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
+    android:layout_height="wrap_content"
     android:orientation="vertical">
 
     <LinearLayout
@@ -14,13 +14,16 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:text="Mot" />
+            android:text="Mot"
+            android:textSize="34sp" />
 
         <TextView
             android:id="@+id/txtMot"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_weight="1" />
+            android:layout_weight="1"
+            android:textAlignment="textEnd"
+            android:textSize="34sp" />
 
     </LinearLayout>
 
@@ -34,13 +37,16 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:text="Temps" />
+            android:text="Temps"
+            android:textSize="20sp" />
 
         <TextView
             android:id="@+id/txtTemps"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_weight="1" />
+            android:layout_weight="1"
+            android:textAlignment="textEnd"
+            android:textSize="20sp" />
     </LinearLayout>
 
     <LinearLayout
@@ -53,12 +59,15 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:text="Difficulte" />
+            android:text="Difficulte"
+            android:textSize="20sp" />
 
         <TextView
             android:id="@+id/txtDifficulte"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_weight="1" />
+            android:layout_weight="1"
+            android:textAlignment="textEnd"
+            android:textSize="20sp" />
     </LinearLayout>
 </LinearLayout>

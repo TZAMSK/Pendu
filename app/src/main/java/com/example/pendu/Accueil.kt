@@ -24,6 +24,7 @@ class Accueil : AppCompatActivity() {
 
         btn_play.setOnClickListener {
             val intent = Intent(this, Jeu::class.java)
+
             startActivity(intent)
         }
 

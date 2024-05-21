@@ -14,18 +14,26 @@
         android:layout_marginTop="100px"
         android:gravity="center"
         android:text="Historique"
-        android:textSize="24sp"
+        android:textSize="34sp"
         android:textStyle="bold" />
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/histo_recycle"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content" />
+        android:layout_height="match_parent"
+        android:layout_weight="1" />
 
-    <Button
-        android:id="@+id/btnRetour2"
-        android:layout_width="wrap_content"
+    <LinearLayout
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Retour" />
+        android:gravity="center"
+        android:orientation="horizontal">
+
+        <Button
+            android:id="@+id/btnRetour2"
+            android:layout_width="173dp"
+            android:layout_height="wrap_content"
+            android:text="Retour" />
+    </LinearLayout>
 
 </LinearLayout>

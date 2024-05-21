@@ -73,7 +73,7 @@ class DatabaseHelper(context: Context): SQLiteOpenHelper(context, DATABASE_NAME,
             val difficulté = cursor.getString(cursor.getColumnIndexOrThrow(COLUMN_DIFFICULTÉ))
             val temps = cursor.getLong(cursor.getColumnIndexOrThrow(COLUMN_TEMPS))
 
-            val historique = Historique(id, mot, difficulté, temps)
+            val historique = Historique(mot, difficulté, temps)
             historiqueListe.add(historique)
         }
         cursor.close()

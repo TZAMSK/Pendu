@@ -3,12 +3,15 @@ package com.example.pendu
 import android.content.Intent
 import android.graphics.Color
 import android.os.Bundle
+import android.os.Handler
+import android.os.Looper
 import android.util.Log
 import android.widget.Button
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
 import com.example.pendu.Database.DatabaseHelper
+import com.example.pendu.Database.Historique
 
 class Jeu : AppCompatActivity() {
 
@@ -27,6 +30,18 @@ class Jeu : AppCompatActivity() {
         "S", "T", "U", "V", "W", "X", "Y", "Z"
     )
 
+    private var tempsDebut: Long = 0
+    private var tempsEcouler: Long = 0
+    private val handler = Handler(Looper.getMainLooper())
+    private val runnable = object : Runnable{
+        override fun run() {
+            val tempsMtn = System.currentTimeMillis()
+            tempsEcouler =tempsMtn - tempsDebut
+            handler.postDelayed(this,1000)
+        }
+    }
+    var tempsFormater: String = ""
+
     private lateinit var motsList: List<String>
     private lateinit var motÀDeviner: String
     private lateinit var motÀDevinerMinuscule: String
@@ -41,6 +56,7 @@ class Jeu : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_jeu)
+        commencerTemps()
 
         databaseHelper = DatabaseHelper(this)
         language = intent.getStringExtra("language") ?: "Francais"
@@ -177,4 +193,30 @@ class Jeu : AppCompatActivity() {
         }
         imgPendu.setImageResource(drawableId)
     }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        arreterTemps()
+
+        var historique = Historique(motÀDeviner,difficulty,tempsEcouler)
+        databaseHelper.insertHistorique(historique)
+
+    }
+    private fun commencerTemps(){
+        tempsDebut = System.currentTimeMillis()
+        handler.post(runnable)
+    }
+    private fun arreterTemps():Long{
+        handler.removeCallbacks(runnable)
+        tempsEcouler = System.currentTimeMillis() - tempsDebut
+       /* val totalSeconds = tempsEcouler / 1000
+        val minutes = totalSeconds / 60
+        val seconds = totalSeconds % 60
+        tempsFormater = String.format("%d:%02d", minutes, seconds)
+        */
+        Log.d("temps",tempsEcouler.toString())
+        return tempsEcouler
+    }
+
+
 }

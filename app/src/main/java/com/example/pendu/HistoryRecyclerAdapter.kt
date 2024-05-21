@@ -7,7 +7,7 @@ import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.example.pendu.Database.Historique
 
-class HistoryRecyclerAdapter(var histo_recycler : ArrayList<Historique>):
+class HistoryRecyclerAdapter(var histo_recycler : List<Historique>):
     RecyclerView.Adapter<HistoryRecyclerAdapter.MyViewHolder>() {
     class MyViewHolder(itemView: View): RecyclerView.ViewHolder(itemView) {
             var txtMot : TextView
