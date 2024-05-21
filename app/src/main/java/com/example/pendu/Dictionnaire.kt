@@ -49,12 +49,16 @@ class Dictionnaire : AppCompatActivity() {
 
         btnAdd.setOnClickListener {
             val motCree = motEditText.text.toString()
-            val selectedDifficulty = diffSpinner.selectedItem.toString()
-            val selectedLanguage = if (radioBtnFr.isChecked) Dictionnaire.FRENCH else Dictionnaire.ENGLISH
-            val mot = Dictionnaire(0, motCree, selectedDifficulty, selectedLanguage)
-            databaseHelper.Add_Mot(mot)
-            dictionnaireAdapter.addMots(motCree)
-            motEditText.text.clear()
+            if (motCree.isNotEmpty()) {
+                val selectedDifficulty = diffSpinner.selectedItem.toString()
+                val selectedLanguage = if (radioBtnFr.isChecked) Dictionnaire.FRENCH else Dictionnaire.ENGLISH
+                val mot = Dictionnaire(0, motCree, selectedDifficulty, selectedLanguage)
+                databaseHelper.Add_Mot(mot)
+                dictionnaireAdapter.addMots(motCree)
+                motEditText.text.clear()
+            } else {
+                Toast.makeText(this, "Entrer un mot", Toast.LENGTH_SHORT).show()
+            }
         }
 
         btnDelete.setOnClickListener {
@@ -66,12 +70,13 @@ class Dictionnaire : AppCompatActivity() {
                 val selectedDifficulty = parent.getItemAtPosition(position) as String
                 updateListMot(selectedDifficulty)
             }
+
             override fun onNothingSelected(parent: AdapterView<*>?) {}
         }
     }
 
     private fun updateListMot(difficulte: String) {
-        val langage = if (radioBtnFr.isChecked) Dictionnaire.FRENCH else Dictionnaire.ENGLISH
+        val langage = if (radioBtnFr.isChecked)  Dictionnaire.FRENCH else Dictionnaire.ENGLISH
         val mots = databaseHelper.getMotsDictionnaire(difficulte, langage)
         dictionnaireAdapter.updateMots(mots)
     }

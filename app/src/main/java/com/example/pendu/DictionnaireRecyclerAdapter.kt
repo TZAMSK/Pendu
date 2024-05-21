@@ -6,7 +6,7 @@ import android.view.ViewGroup
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 
-class DictionnaireRecyclerAdapter(private var dictionnaireList: MutableList<String>) :
+class DictionnaireRecyclerAdapter(var dictionnaireList: MutableList<String>) :
     RecyclerView.Adapter<DictionnaireRecyclerAdapter.DictionnaireViewHolder>() {
 
     class DictionnaireViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
