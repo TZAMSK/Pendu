@@ -9,52 +9,55 @@ import android.widget.ImageView
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
 
-var listeLettres = emptyArray<Button>()
-
-// Liste des lettres pour les boutons
-val listeMaj = arrayOf(
-    "A", "B", "C", "D", "E", "F", "G",
-    "H", "I", "J", "K", "L", "M", "N", "O", "P", "Q", "R",
-    "S", "T", "U", "V", "W", "X", "Y", "Z"
-)
-
-var pointage = 0
-var nbErreurs = 0
-
-val listeDeMots = arrayOf(
-    "arbre", "cheval", "pendu", "maison", "temps", "java",
-    "kotlin", "apple", "jazz", "avion", "partager", "cercle",
-    "math"
-)
-
-var motÀDeviner = listeDeMots.random()
-var motÀDevinerMinuscule = motÀDeviner.lowercase()
-
-var lettresEssayées = mutableListOf<Char>()
-
-lateinit var txtScore: TextView
-lateinit var txtMot: TextView
-lateinit var imgPendu: ImageView
-lateinit var btnRecommancer: Button
-
-// Couleur
-val COULEUR_CLIQUÉ = 0xFF701010.toInt()
-val COULEUR_NORMAL = 0xFF6200EE.toInt()
-
 class Jeu : AppCompatActivity() {
+
+    private lateinit var txtScore: TextView
+    private lateinit var txtMot: TextView
+    private lateinit var imgPendu: ImageView
+    private lateinit var btnRecommencer: Button
+    private var listeLettres = emptyArray<Button>()
+    private var lettresEssayées = mutableListOf<Char>()
+
+    private var pointage = 0
+    private var nbErreurs = 0
+    private val listeMaj = arrayOf(
+        "A", "B", "C", "D", "E", "F", "G",
+        "H", "I", "J", "K", "L", "M", "N", "O", "P", "Q", "R",
+        "S", "T", "U", "V", "W", "X", "Y", "Z"
+    )
+
+    //private val listeDeMots = Preference.listeDeMots
+    private val listeDeMots = arrayOf("SALUT")
+    private var motÀDeviner = listeDeMots.random()
+    private var motÀDevinerMinuscule = motÀDeviner.lowercase()
+
+    private val COULEUR_CLIQUÉ = 0xFF701010.toInt()
+    private val COULEUR_NORMAL = 0xFF6200EE.toInt()
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_jeu)
 
+        initViews()
+        initGame()
+        setupButtons()
+    }
 
+    private fun initViews() {
         txtScore = findViewById(R.id.txtScore)
         txtMot = findViewById(R.id.txtMot)
-        txtMot.setTextColor(Color.BLACK)
         imgPendu = findViewById(R.id.imgPendu)
-        btnRecommancer = findViewById(R.id.btnRecommencer)
+        btnRecommencer = findViewById(R.id.btnRecommencer)
 
+        txtMot.setTextColor(Color.BLACK)
+        btnRecommencer.setOnClickListener { resetGame() }
+    }
+
+    private fun initGame() {
         txtMot.text = afficherMot(motÀDeviner)
+    }
 
+    private fun setupButtons() {
         for (letter in listeMaj) {
             val buttonId = resources.getIdentifier("btn$letter", "id", packageName)
             if (buttonId != 0) {
@@ -68,22 +71,13 @@ class Jeu : AppCompatActivity() {
                 }
             }
         }
-
-        btnRecommancer.setOnClickListener {
-            réinitialiser()
-            for (lettreBouton in listeLettres) {
-                lettreBouton.setBackgroundColor(COULEUR_NORMAL)
-                lettreBouton.isEnabled = true
-            }
-            txtMot.setTextColor(Color.BLACK)
-        }
     }
 
-    fun afficherMot(mot: String): String {
+    private fun afficherMot(mot: String): String {
         return mot.map { if (lettresEssayées.contains(it.uppercaseChar())) it else '#' }.joinToString("")
     }
 
-    fun réinitialiser() {
+    private fun resetGame() {
         pointage = 0
         nbErreurs = 0
         motÀDeviner = listeDeMots.random()
@@ -92,75 +86,66 @@ class Jeu : AppCompatActivity() {
         txtScore.text = score().toString()
         txtMot.text = afficherMot(motÀDeviner)
         imgPendu.setImageResource(R.drawable.err01)
+
+        for (lettreBouton in listeLettres) {
+            lettreBouton.setBackgroundColor(COULEUR_NORMAL)
+            lettreBouton.isEnabled = true
+        }
+        txtMot.setTextColor(Color.BLACK)
     }
 
-    fun score(): Int {
+    private fun score(): Int {
         return pointage - nbErreurs
     }
 
-    fun étatLettres(): CharArray {
+    private fun étatLettres(): CharArray {
         val motÀDevinerMajuscule = motÀDeviner.uppercase()
         val caractère = CharArray(motÀDevinerMajuscule.length)
         for (i in motÀDevinerMajuscule.indices) {
             val lettre = motÀDevinerMajuscule[i]
-            if (lettresEssayées.contains(lettre)) {
-                caractère[i] = lettre
-            } else {
-                caractère[i] = '#'
-            }
+            caractère[i] = if (lettresEssayées.contains(lettre)) lettre else '#'
         }
         return caractère
     }
 
-    fun afficherÉtatLettres(état: String) {
-        txtMot.text = état
+    private fun afficherÉtatLettres(état: CharArray) {
+        txtMot.text = String(état)
     }
 
-    fun afficherÉtatLettres(état: CharArray) {
-        afficherÉtatLettres(String(état))
-    }
-
-    fun essayerUneLettre(lettre: Char): Boolean {
+    private fun essayerUneLettre(lettre: Char) {
         val lettreMinuscule = lettre.lowercaseChar()
         if (motÀDevinerMinuscule.contains(lettreMinuscule)) {
             pointage++
             lettresEssayées.add(lettre.uppercaseChar())
-            val état = étatLettres()
-            afficherÉtatLettres(état)
+            afficherÉtatLettres(étatLettres())
             txtScore.text = score().toString()
 
             Log.d("mot pour l'instant", txtMot.text.toString().lowercase())
             Log.d("mot cache", motÀDeviner)
-            if (txtMot.text.toString().lowercase()==motÀDeviner){
+            if (txtMot.text.toString().lowercase() == motÀDeviner) {
                 afficherFin(getString(R.string.txt_winner))
             }
-            return true
         } else {
             nbErreurs++
             lettresEssayées.add(lettre.uppercaseChar())
-            val état = étatLettres()
-            afficherÉtatLettres(état)
+            afficherÉtatLettres(étatLettres())
             afficherPendu(nbErreurs)
             txtScore.text = score().toString()
-            return false
         }
     }
 
-
-    private fun afficherFin(statut: String){
+    private fun afficherFin(statut: String) {
         val intention = Intent(this, Statut::class.java)
-
         intention.putExtra("statut", statut)
-        if(nbErreurs >= 6){
+        if (nbErreurs >= 6) {
             intention.putExtra("motCache", motÀDevinerMinuscule)
         }
         startActivity(intention)
-        réinitialiser()
+        resetGame()
         recreate()
     }
 
-
-    fun afficherPendu(nbErreurs: Int) {
+    private fun afficherPendu(nbErreurs: Int) {
         val drawableId = when (nbErreurs) {
             0 -> R.drawable.err01
             1 -> R.drawable.err02
@@ -173,7 +158,6 @@ class Jeu : AppCompatActivity() {
                 afficherFin(getString(R.string.txt_loser))
                 R.drawable.err06
             }
-
         }
         imgPendu.setImageResource(drawableId)
     }
