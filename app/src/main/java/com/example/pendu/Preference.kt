@@ -1,6 +1,8 @@
 package com.example.pendu
 
+import android.content.Context
 import android.content.Intent
+import android.content.SharedPreferences
 import android.os.Bundle
 import android.view.View
 import android.widget.Button
@@ -17,79 +19,97 @@ class Preference : AppCompatActivity() {
     private lateinit var radioBtnHard: RadioButton
     private lateinit var btnDictionnaire: Button
     private lateinit var btnRetour: Button
-    private lateinit var databaseHelper: DatabaseHelper
+    private lateinit var btnOK: Button
+            private lateinit var sharedPreferences: SharedPreferences
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_preference)
 
-        databaseHelper = DatabaseHelper(this)
+        sharedPreferences = getSharedPreferences("MyPrefs", Context.MODE_PRIVATE)
 
+        initializeViews()
+        loadCheckedRadioButtons()
+        setupListeners()
+    }
+
+    private fun initializeViews() {
         radioBtnFr = findViewById(R.id.RBfrancais)
         radioBtnEn = findViewById(R.id.RBanglais)
         radioBtnEasy = findViewById(R.id.RBfacile)
         radioBtnMedium = findViewById(R.id.RBmoyen)
         radioBtnHard = findViewById(R.id.RBdifficile)
         btnRetour = findViewById(R.id.btnRetour)
+        btnOK = findViewById(R.id.btnOK)
+
         btnDictionnaire = findViewById(R.id.btnDictionnaire)
+    }
 
-        loadPreferences()
-
+    private fun setupListeners() {
         btnRetour.setOnClickListener {
-            startActivity(Intent(this, Accueil::class.java))
-            finish()
+            navigerVersAccueil()
         }
 
-        btnDictionnaire .setOnClickListener {
-            startActivity(Intent(this, Dictionnaire::class.java))
-            finish()
+        btnDictionnaire.setOnClickListener {
+            navigerVersDictionnaire()
         }
-    }
 
-    private fun loadPreferences() {
-        val language = databaseHelper.getLanguagePreference()
-        val difficulty = databaseHelper.getDifficultePreference()
-
-        language?.let { updateLanguageRadioButton(it) }
-        difficulty?.let { updateDifficultyRadioButton(it) }
-    }
-
-    private fun updateLanguageRadioButton(language: String) {
-        when (language) {
-            "Francais" -> radioBtnFr.isChecked = true
-            "Anglais" -> radioBtnEn.isChecked = true
+        btnOK.setOnClickListener {
+            val intent = Intent(this, Jeu::class.java).apply {
+                putExtra("language", if (radioBtnFr.isChecked) "Francais" else "Anglais")
+                putExtra("difficulty", if (radioBtnEasy.isChecked) "Facile" else if (radioBtnMedium.isChecked) "Moyen" else "Difficile")
+            }
+            startActivity(intent)
         }
-    }
-
-    private fun updateDifficultyRadioButton(difficulty: String) {
-        radioBtnEasy.isChecked = (difficulty == "Facile")
-        radioBtnMedium.isChecked = (difficulty == "Moyen")
-        radioBtnHard.isChecked = (difficulty == "Difficile")
     }
 
     fun onRadioButtonClicked(view: View) {
         if (view is RadioButton) {
-            val language = when (view.id) {
-                R.id.RBfrancais -> "Francais"
-                R.id.RBanglais -> "Anglais"
-                else -> return
-            }
-
-            val difficulty = when (view.id) {
-                R.id.RBfacile -> "Facile"
-                R.id.RBmoyen -> "Moyen"
-                R.id.RBdifficile -> "Difficile"
-                else -> return
-            }
-
-            databaseHelper.update_preference("language", language)
-            databaseHelper.update_preference("difficulte", difficulty)
-
-            // Start the Jeu activity with selected language and difficulty
-            val intent = Intent(this, Jeu::class.java)
-            intent.putExtra("language", language)
-            intent.putExtra("difficulty", difficulty)
-            startActivity(intent)
+            saveCheckedRadioButtons()
         }
+    }
+
+    private fun navigerVersAccueil() {
+        saveCheckedRadioButtons()
+        startActivity(Intent(this, Accueil::class.java))
+        finish()
+    }
+
+    private fun navigerVersDictionnaire() {
+        saveCheckedRadioButtons()
+        startActivity(Intent(this, Dictionnaire::class.java))
+        finish()
+    }
+
+
+    /*
+    private fun startGame() {
+        val language = sharedPreferences.getString("language", "Francais")
+        val difficulty = sharedPreferences.getString("difficulty", "Facile")
+
+        val intent = Intent(this, Jeu::class.java)
+        intent.putExtra("language", language)
+        intent.putExtra("difficulty", difficulty)
+        startActivity(intent)
+    }
+
+     */
+
+    private fun saveCheckedRadioButtons() {
+        val editor = sharedPreferences.edit()
+        editor.putBoolean("francaisChecked", radioBtnFr.isChecked)
+        editor.putBoolean("anglaisChecked", radioBtnEn.isChecked)
+        editor.putBoolean("facileChecked", radioBtnEasy.isChecked)
+        editor.putBoolean("moyenChecked", radioBtnMedium.isChecked)
+        editor.putBoolean("difficileChecked", radioBtnHard.isChecked)
+        editor.apply()
+    }
+
+    private fun loadCheckedRadioButtons() {
+        radioBtnFr.isChecked = sharedPreferences.getBoolean("francaisChecked", true)
+        radioBtnEn.isChecked = sharedPreferences.getBoolean("anglaisChecked", false)
+        radioBtnEasy.isChecked = sharedPreferences.getBoolean("facileChecked", true)
+        radioBtnMedium.isChecked = sharedPreferences.getBoolean("moyenChecked", false)
+        radioBtnHard.isChecked = sharedPreferences.getBoolean("difficileChecked", false)
     }
 }

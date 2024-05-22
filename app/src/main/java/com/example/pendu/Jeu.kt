@@ -58,9 +58,11 @@ class Jeu : AppCompatActivity() {
         setContentView(R.layout.activity_jeu)
         commencerTemps()
 
-        databaseHelper = DatabaseHelper(this)
+
         language = intent.getStringExtra("language") ?: "Francais"
         difficulty = intent.getStringExtra("difficulty") ?: "Facile"
+
+        databaseHelper = DatabaseHelper(this)
 
         // Fetch the list of words from the database based on language and difficulty
         motsList = databaseHelper.getMotsDictionnaire(difficulty, language)

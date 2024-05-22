@@ -37,7 +37,7 @@
         <RadioGroup
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:checkedButton="@id/RBfrancais"
+
             android:gravity="center"
             android:orientation="horizontal">
 
@@ -77,7 +77,6 @@
         <RadioGroup
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:checkedButton="@id/RBfacile"
             android:orientation="horizontal">
 
             <RadioButton
@@ -132,5 +131,14 @@
             android:text="Dictionnaire" />
 
     </LinearLayout>
+
+    <Button
+        android:id="@+id/btnOK"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="15px"
+        android:layout_marginRight="20px"
+        android:background="#9A6D6D"
+        android:text="OK" />
 
 </LinearLayout>
