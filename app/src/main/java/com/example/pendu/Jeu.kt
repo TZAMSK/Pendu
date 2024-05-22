@@ -16,14 +16,14 @@ import com.example.pendu.Database.Historique
 class Jeu : AppCompatActivity() {
 
     private lateinit var txtScore: TextView
-    private lateinit var txtMot: TextView
+    lateinit var txtMot: TextView
     private lateinit var imgPendu: ImageView
     private lateinit var btnRecommencer: Button
     private var listeLettres = emptyArray<Button>()
-    private var lettresEssayées = mutableListOf<Char>()
+    var lettresEssayées = mutableListOf<Char>()
 
-    private var pointage = 0
-    private var nbErreurs = 0
+    var pointage = 0
+    var nbErreurs = 0
     private val listeMaj = arrayOf(
         "A", "B", "C", "D", "E", "F", "G",
         "H", "I", "J", "K", "L", "M", "N", "O", "P", "Q", "R",
@@ -106,7 +106,7 @@ class Jeu : AppCompatActivity() {
         }
     }
 
-    private fun afficherMot(mot: String): String {
+    fun afficherMot(mot: String): String {
         return mot.map { if (lettresEssayées.contains(it.uppercaseChar())) it else '#' }.joinToString("")
     }
 
@@ -128,7 +128,7 @@ class Jeu : AppCompatActivity() {
         txtMot.setTextColor(Color.BLACK)
     }
 
-    private fun score(): Int {
+    fun score(): Int {
         return pointage - nbErreurs
     }
 
@@ -146,7 +146,7 @@ class Jeu : AppCompatActivity() {
         txtMot.text = String(état)
     }
 
-    private fun essayerUneLettre(lettre: Char) {
+    fun essayerUneLettre(lettre: Char) {
         val lettreMinuscule = lettre.lowercaseChar()
         if (motÀDevinerMinuscule.contains(lettreMinuscule)) {
             pointage++
