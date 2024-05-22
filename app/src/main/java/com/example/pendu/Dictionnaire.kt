@@ -62,7 +62,10 @@ class Dictionnaire : AppCompatActivity() {
         }
 
         btnDelete.setOnClickListener {
-
+            dictionnaireAdapter.selectedItem?.let { selectedWord ->
+                databaseHelper.Delete_Mot(selectedWord)
+                dictionnaireAdapter.deleteMot(selectedWord)
+            } ?: Toast.makeText(this, "Selectionner un mot à supprimer", Toast.LENGTH_SHORT).show()
         }
 
         diffSpinner2.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {

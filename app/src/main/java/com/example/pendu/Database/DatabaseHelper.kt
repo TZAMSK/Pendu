@@ -178,11 +178,9 @@ class DatabaseHelper(context: Context): SQLiteOpenHelper(context, DATABASE_NAME,
         db.close()
     }
 
-    fun Delete_Mot(mot: Dictionnaire) {
+    fun Delete_Mot(mot: String) {
         val db = writableDatabase
-        val selection = "$COLUMN_ID = ?"
-        val selectionArgs = arrayOf(mot.id.toString())
-        db.delete(TABLE_DICTIONNAIRE, selection, selectionArgs)
+        db.delete(TABLE_DICTIONNAIRE, "$COLUMN_MOT = ?", arrayOf(mot))
         db.close()
     }
 }

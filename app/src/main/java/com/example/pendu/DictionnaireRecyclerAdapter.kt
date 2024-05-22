@@ -6,9 +6,10 @@ import android.view.ViewGroup
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 
-class DictionnaireRecyclerAdapter(var dictionnaireList: MutableList<String>) :
+class DictionnaireRecyclerAdapter(private val dictionnaireList: MutableList<String>) :
     RecyclerView.Adapter<DictionnaireRecyclerAdapter.DictionnaireViewHolder>() {
 
+    var selectedItem: String? = null
     class DictionnaireViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         val afficheMot: TextView = itemView.findViewById(R.id.affiche_mot)
     }
@@ -22,8 +23,11 @@ class DictionnaireRecyclerAdapter(var dictionnaireList: MutableList<String>) :
     override fun onBindViewHolder(holder: DictionnaireViewHolder, position: Int) {
         val currentMot = dictionnaireList[position]
         holder.afficheMot.text = currentMot
+        holder.itemView.setOnClickListener {
+            selectedItem = currentMot
+            notifyDataSetChanged()
+        }
     }
-
     fun addMots(mot: String) {
         dictionnaireList.add(mot)
         notifyItemInserted(dictionnaireList.size - 1)
@@ -35,5 +39,12 @@ class DictionnaireRecyclerAdapter(var dictionnaireList: MutableList<String>) :
         notifyDataSetChanged()
     }
 
+    fun deleteMot(word: String) {
+        val isRemoved = dictionnaireList.removeIf { it == word }
+        if (isRemoved) {
+            notifyDataSetChanged()
+        }
+    }
     override fun getItemCount() = dictionnaireList.size
 }
+
