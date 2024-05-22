@@ -1,12 +1,15 @@
 package com.example.pendu
 
+import com.example.pendu.Database.Historique
 import org.junit.Assert.*
 import org.junit.Before
 import org.junit.Test
 
 class JeuTest {
 
+    var listHistorique: List<Historique> = emptyList()
     var jeu: Jeu = Jeu()
+    var historyRecyclerAdapter: HistoryRecyclerAdapter = HistoryRecyclerAdapter(listHistorique)
 
     @Test
     fun testAfficherMot_initial() {
@@ -77,7 +80,14 @@ class JeuTest {
     }
 
     @Test
-    fun testGameLoss() {
+    fun testAfficherMot_noGuesses() {
+        jeu.lettresEssayées.clear()
+        val displayedWord = jeu.afficherMot("HANGMAN")
+        assertEquals("#######", displayedWord)
+    }
+
+    @Test
+    fun testGameLost() {
         jeu.nbErreurs = 5
         jeu.txtMot.text = "####"
         jeu.essayerUneLettre('X')
@@ -86,9 +96,10 @@ class JeuTest {
     }
 
     @Test
-    fun testAfficherMot_noGuesses() {
-        jeu.lettresEssayées.clear()
-        val displayedWord = jeu.afficherMot("HANGMAN")
-        assertEquals("#######", displayedWord)
+    fun testTemps() {
+        val tempsMillis = 3661000L
+        val result = historyRecyclerAdapter.Temps(tempsMillis)
+        assertEquals("01h 01m 01s", result)
     }
+
 }

@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">Pendu</string>
+    <string name="btn_play_again">Rejouer</string>
+    <string name="txt_loser">Vous avez perdu! Le mot était: </string>
+    <string name="txt_winner">Vous avez gagné!</string>
+    <string-array name="difficultes">
+        <item>Facile</item>
+        <item>Moyen</item>
+        <item>Difficile</item>
+    </string-array>
+</resources>
