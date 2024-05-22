@@ -43,7 +43,7 @@ class Jeu : AppCompatActivity() {
     var tempsFormater: String = ""
 
     private lateinit var motsList: List<String>
-    private lateinit var motÀDeviner: String
+    lateinit var motÀDeviner: String
     private lateinit var motÀDevinerMinuscule: String
 
     private val COULEUR_CLIQUÉ = 0xFF701010.toInt()
@@ -110,7 +110,7 @@ class Jeu : AppCompatActivity() {
         return mot.map { if (lettresEssayées.contains(it.uppercaseChar())) it else '#' }.joinToString("")
     }
 
-    private fun resetGame() {
+    fun resetGame() {
         pointage = 0
         nbErreurs = 0
         // Select a new word randomly from the list

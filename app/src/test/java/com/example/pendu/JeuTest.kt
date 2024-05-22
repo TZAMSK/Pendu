@@ -54,4 +54,41 @@ class JeuTest {
         jeu.nbErreurs = 2
         assertEquals(3, jeu.score())
     }
+
+    @Test
+    fun testResetGame() {
+        jeu.pointage = 5
+        jeu.nbErreurs = 2
+        jeu.lettresEssayées.add('T')
+        jeu.resetGame()
+
+        assertEquals(0, jeu.pointage)
+        assertEquals(0, jeu.nbErreurs)
+        assertTrue(jeu.lettresEssayées.isEmpty())
+        assertEquals("####", jeu.afficherMot(jeu.motÀDeviner))
+    }
+
+    @Test
+    fun testGameWin() {
+        jeu.lettresEssayées.addAll(listOf('T', 'E', 'S'))
+        jeu.txtMot.text = "T#ST"
+        jeu.essayerUneLettre('T')
+        assertTrue(jeu.txtMot.text.toString().contains("TEST"))
+    }
+
+    @Test
+    fun testGameLoss() {
+        jeu.nbErreurs = 5
+        jeu.txtMot.text = "####"
+        jeu.essayerUneLettre('X')
+
+        assertEquals("TEST", jeu.txtMot.text.toString())
+    }
+
+    @Test
+    fun testAfficherMot_noGuesses() {
+        jeu.lettresEssayées.clear()
+        val displayedWord = jeu.afficherMot("HANGMAN")
+        assertEquals("#######", displayedWord)
+    }
 }
