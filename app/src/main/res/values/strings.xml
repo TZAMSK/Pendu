@@ -3,7 +3,12 @@
 <string name="btn_play_again">Play Again</string>
 <string name="txt_loser">You have lost! The word was: </string>
 <string name="txt_winner">You have won!</string>
-<string-array name="difficultes">
+<string name="mot">Word</string>
+<string name="temps">Time</string>
+<string name="difficulte">Difficulty</string>
+<string name="historique">History</string>
+    <string name="retour">Back</string>
+    <string-array name="difficultes">
     <item>Easy</item>
     <item>Normal</item>
     <item>Hard</item>

@@ -14,7 +14,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:text="Mot"
+            android:text="@string/mot"
             android:textSize="34sp" />
 
         <TextView
@@ -37,7 +37,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:text="Temps"
+            android:text="@string/temps"
             android:textSize="20sp" />
 
         <TextView
@@ -59,7 +59,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:text="Difficulte"
+            android:text="@string/difficulte"
             android:textSize="20sp" />
 
         <TextView

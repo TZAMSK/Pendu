@@ -13,7 +13,7 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="100px"
         android:gravity="center"
-        android:text="Historique"
+        android:text="@string/historique"
         android:textSize="34sp"
         android:textStyle="bold" />
 
@@ -33,7 +33,7 @@
             android:id="@+id/btnRetour2"
             android:layout_width="173dp"
             android:layout_height="wrap_content"
-            android:text="Retour" />
+            android:text="@string/retour" />
     </LinearLayout>
 
 </LinearLayout>

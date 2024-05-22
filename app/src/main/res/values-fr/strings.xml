@@ -4,6 +4,11 @@
     <string name="btn_play_again">Rejouer</string>
     <string name="txt_loser">Vous avez perdu! Le mot était: </string>
     <string name="txt_winner">Vous avez gagné!</string>
+    <string name="mot">Mot</string>
+    <string name="temps">Time</string>
+    <string name="difficulte">Difficulté</string>
+    <string name="historique">Historique</string>
+    <string name="retour">Retour</string>
     <string-array name="difficultes">
         <item>Facile</item>
         <item>Moyen</item>
