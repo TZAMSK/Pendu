@@ -9,6 +9,7 @@ import android.util.Log
 import android.widget.Button
 import android.widget.ImageView
 import android.widget.TextView
+import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import com.example.pendu.Database.DatabaseHelper
 import com.example.pendu.Database.Historique
@@ -66,6 +67,13 @@ class Jeu : AppCompatActivity() {
 
         // Fetch the list of words from the database based on language and difficulty
         motsList = databaseHelper.getMotsDictionnaire(difficulty, language)
+
+        if(motsList.isEmpty()){
+            Toast.makeText(this,"Il n'y a pas de mots  en ${language} et ${difficulty}", Toast.LENGTH_LONG).show()
+            throw IllegalStateException("Il n'y a pas de mots en $language et $difficulty")
+            finish()
+            return
+        }
 
         // Select a word randomly from the list
         motÀDeviner = motsList.random()
